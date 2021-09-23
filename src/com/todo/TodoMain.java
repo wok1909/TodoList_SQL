@@ -1,23 +1,83 @@
 package com.todo;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
+import com.todo.dao.TodoItem;
 import com.todo.dao.TodoList;
 import com.todo.menu.Menu;
 import com.todo.service.TodoUtil;
 
 public class TodoMain {
+	private static TodoList l;
+	
+	public static void load() {
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("todolist.txt"));
+			
+			l = new TodoList();
+			
+			String oneline;
+			while((oneline = br.readLine()) != null) {
+				// System.out.println(oneline);
+				StringTokenizer st = new StringTokenizer(oneline, "##");
+				
+				String title = st.nextToken();
+				title = title.substring(1,title.length()-1);
+				String desc = st.nextToken();
+				String date = st.nextToken();				
+				
+				TodoUtil.createItemAtBeginning(l, title, desc, date);
+			}
+			br.close();
+			System.out.println("정보 로딩 완료!");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public static void save() throws IOException {
+		BufferedWriter bw = new BufferedWriter(new FileWriter("todolist.txt"));
+		for (TodoItem item : l.getList()) {
+			bw.write("[" + item.getTitle() + "]##" + item.getDesc() + "##" + item.getCurrent_date());
+			bw.newLine();
+		}
+		bw.flush();
+		bw.close();
+	}
+	
 	
 	public static void start() {
 	
 		Scanner sc = new Scanner(System.in);
-		TodoList l = new TodoList();
+		
+		if(l == null)
+			l = new TodoList();
 		boolean isList = false;
 		boolean quit = false;
+		
+		Menu.displaymenu();
 		do {
-			Menu.displaymenu();
+//			Menu.displaymenu();
+			Menu.prompt();
 			isList = false;
 			String choice = sc.next();
+			
+			if(choice.equals("help"))
+			{
+				Menu.displaymenu();
+				continue;
+			}
+			
 			switch (choice) {
 
 			case "add":
@@ -38,17 +98,26 @@ public class TodoMain {
 
 			case "ls_name_asc":
 				l.sortByName();
+				
+				System.out.println("제목순으로 정렬하였습니다.");
+
 				isList = true;
 				break;
 
 			case "ls_name_desc":
 				l.sortByName();
 				l.reverseList();
+				
+				System.out.println("제목순으로 정렬하였습니다.");
+
 				isList = true;
 				break;
 				
 			case "ls_date":
 				l.sortByDate();
+
+				System.out.println("날짜순으로 정렬하였습니다.");
+
 				isList = true;
 				break;
 
@@ -57,7 +126,7 @@ public class TodoMain {
 				break;
 
 			default:
-				System.out.println("please enter one of the above mentioned command");
+				System.out.println("정확한 명령어를 입력하세요. (도움말 - help)");
 				break;
 			}
 			
