@@ -22,21 +22,23 @@ public class TodoMain {
 			BufferedReader br = new BufferedReader(new FileReader("todolist.txt"));
 			
 			l = new TodoList();
-			
+			int count = 0;
 			String oneline;
 			while((oneline = br.readLine()) != null) {
-				// System.out.println(oneline);
+//				System.out.println(oneline);
 				StringTokenizer st = new StringTokenizer(oneline, "##");
 				
 				String title = st.nextToken();
-				title = title.substring(1,title.length()-1);
+//				title = title.substring(1,title.length()-1);
+				String category = st.nextToken();
 				String desc = st.nextToken();
 				String date = st.nextToken();				
-				
-				TodoUtil.createItemAtBeginning(l, title, desc, date);
+
+				TodoUtil.createItemAtBeginning(l, title, category, desc, date);
+				count++;
 			}
 			br.close();
-			System.out.println("정보 로딩 완료!");
+			System.out.printf("%d개의 정보 로딩 완료!\n", count);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -48,11 +50,14 @@ public class TodoMain {
 	public static void save() throws IOException {
 		BufferedWriter bw = new BufferedWriter(new FileWriter("todolist.txt"));
 		for (TodoItem item : l.getList()) {
-			bw.write("[" + item.getTitle() + "]##" + item.getDesc() + "##" + item.getCurrent_date());
+//			bw.write("[" + item.getTitle() + "]##" + item.getDesc() + "##" + item.getCurrent_date());
+			bw.write(item.toSaveString());
 			bw.newLine();
 		}
 		bw.flush();
 		bw.close();
+		
+		System.out.printf("%d개 정보 저장 완료!\n", l.getList().size());
 	}
 	
 	
@@ -90,6 +95,10 @@ public class TodoMain {
 				
 			case "edit":
 				TodoUtil.updateItem(l);
+				break;
+			case "find":
+				String key = sc.nextLine().trim();
+				TodoUtil.find(l, key);
 				break;
 				
 			case "ls":

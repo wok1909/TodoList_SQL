@@ -8,6 +8,5 @@ public class Main {
 		TodoMain.load();
 		TodoMain.start();
 		TodoMain.save();
-		
 	}
 }
