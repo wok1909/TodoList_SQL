@@ -33,16 +33,6 @@ public class TodoItem {
         DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         this.setCurrent_date(df.format(date));
         this.setDue_date(duedate);
-        
-//        Calendar cur = Calendar.getInstance();
-//        Calendar due = Calendar.getInstance();
-//        cur.setTime(new Date());
-//        due.setTime(new Date());
-//        DateFormat dff = new SimpleDateFormat("yyyy/MM/dd");
-//
-//        due.add(Calendar.DATE,  );
-//        
-//        this.setCurrent_date(curDf.format(cur.getTime()) +  " - " + dueDf.format(due.getTime()));
     }
     
     public String getTitle() {

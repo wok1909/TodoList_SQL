@@ -96,6 +96,7 @@ public class TodoMain {
 			case "edit":
 				TodoUtil.updateItem(l);
 				break;
+				
 			case "find":
 				String key = sc.nextLine().trim();
 				TodoUtil.find(l, key);
@@ -138,6 +139,7 @@ public class TodoMain {
 
 				isList = true;
 				break;
+				
 			case "ls_date_desc":
 				l.sortByDate();
 				l.reverseList();

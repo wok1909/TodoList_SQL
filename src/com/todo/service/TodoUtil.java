@@ -13,24 +13,15 @@ public class TodoUtil {
 		String title, desc, category, due;
 		Scanner sc = new Scanner(System.in);
 		
-//		System.out.println("\n"
-//				+ "========== Create item Section\n"
-//				+ "enter the title\n");
-		
-//		title = sc.next();
-		
 		System.out.print("\n"
 				+ "[항목 추가]\n"
 				+ "제목 > ");
 		
 		title = sc.next().trim();
 		if (list.isDuplicate(title)) {
-//			System.out.printf("title can't be duplicate");
 			System.out.println("제목이 중복됩니다!");
 			return;
 		}
-//		System.out.println("enter the description");
-//		desc = sc.next();
 		
 		sc.nextLine();	// flush buffer
 		
@@ -44,12 +35,12 @@ public class TodoUtil {
 		due = sc.nextLine().trim();
 		
 		
-		TodoItem t = new TodoItem(title, category, desc, due);
+		TodoItem t = new TodoItem(title, desc, category, due);
 		list.addItem(t);
 	}
 	
 public static void createItemAtBeginning(TodoList list, String title, String category, String desc, String date) {
-		TodoItem t = new TodoItem(title, category, desc);
+		TodoItem t = new TodoItem(title, desc, category);
 		
 		if(date.length() > 19)
 		{
@@ -66,11 +57,6 @@ public static void createItemAtBeginning(TodoList list, String title, String cat
 		
 		Scanner sc = new Scanner(System.in);
 		
-//		System.out.println("\n"
-//				+ "========== Delete Item Section\n"
-//				+ "enter the title of item to remove\n"
-//				+ "\n");
-		
 		System.out.print("\n"
 				+ "[항목 삭제]\n"
 				+ "삭제할 항목의 번호를 입력하시오 > ");
@@ -79,26 +65,24 @@ public static void createItemAtBeginning(TodoList list, String title, String cat
 		
 		System.out.println(index + ". " + getLine(l, index-1));
 		
-		l.deleteItem(l.getList().get(index-1));
+		System.out.print("위 항목을 삭제하시겠습니까? (y/n) > ");
 		
-//		for (TodoItem item : l.getList()) {
-//			if (title.equals(item.getTitle())) {
-//				l.deleteItem(item);
-//				break;
-//			}
-//		}
+		String input = sc.next().trim();
+		
+		if(input.equals("y")) {
+			l.deleteItem(l.getList().get(index-1));
+			System.out.println("삭제되었습니다.");
+		}
+		else if(input.equals("n")) {
+			System.out.println("삭제되지 않았습니다.");
+		}
+			
 	}
 
 
 	public static void updateItem(TodoList l) {
 		
 		Scanner sc = new Scanner(System.in);
-		
-//		System.out.println("\n"
-//				+ "========== Edit Item Section\n"
-//				+ "enter the title of the item you want to update\n"
-//				+ "\n");
-//		String title = sc.next().trim();
 		
 		System.out.print("\n"
 				+ "[항목 수정]\n"
@@ -189,7 +173,6 @@ public static void createItemAtBeginning(TodoList list, String title, String cat
 		System.out.printf("[전체 목록, 총 %d개]\n", l.getList().size());
 		int i=1;
 		for (TodoItem item : l.getList()) {
-//			System.out.println("Item Title: " + item.getTitle() + "  Item Description:  " + item.getDesc());
 			System.out.print(i++ + ". ");
 			System.out.println("[" + item.getCategory() + "] " + item.getTitle() + " " + item.getDesc() + " - " + item.getCurrent_date().substring(0,10) + " - " + item.getDue_date());
 		}
