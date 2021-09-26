@@ -1,6 +1,7 @@
 package com.todo.service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.todo.dao.TodoItem;
 import com.todo.dao.TodoList;
@@ -141,11 +142,6 @@ public static void createItemAtBeginning(TodoList list, String title, String cat
 	}
 	
 	public static void find(TodoList l, String key) {
-//		String key;
-//		Scanner sc = new Scanner(System.in);
-		
-//		key = sc.nextLine().trim();
-		
 		int count = 0;
 		for(int i=0; i<l.getList().size(); i++) {
 			TodoItem item = l.getList().get(i);
@@ -156,6 +152,37 @@ public static void createItemAtBeginning(TodoList list, String title, String cat
 		}
 		
 		System.out.printf("총 %d개의 항목을 찾았습니다.\n", count);
+	}
+	
+	public static void find_cate(TodoList l, String key) {	
+		int count = 0;
+		for(int i=0; i<l.getList().size(); i++) {
+			TodoItem item = l.getList().get(i);
+			if(item.getCategory().contains(key)) {
+				System.out.println(i+1 + ". " + getLine(l, i));
+				count++;
+			}
+		}
+		
+		System.out.printf("총 %d개의 항목을 찾았습니다.\n", count);
+	}
+	
+	public static void ls_cate(TodoList l) {
+		List<String> list = new ArrayList<>();
+		int count = 0;
+		for(TodoItem item : l.getList()) {
+			list.add(item.getCategory());
+			count++;
+		}
+		
+		List<String> cate = list.stream().distinct().collect(Collectors.toList());
+		
+		for(int i=0; i<cate.size(); i++) {
+			System.out.print(cate.get(i));
+			if(i != cate.size()-1)
+				System.out.print(" \\ ");
+		}
+		System.out.printf("\n총 %d개의 카테고리가 등록되어 있습니다.\n", cate.size());
 	}
 
 	public static void listAll(TodoList l) {

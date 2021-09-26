@@ -100,11 +100,20 @@ public class TodoMain {
 				String key = sc.nextLine().trim();
 				TodoUtil.find(l, key);
 				break;
+			
+			case "find_cate":
+				String keyCate = sc.nextLine().trim();
+				TodoUtil.find_cate(l, keyCate);
+				break;
 				
 			case "ls":
 				TodoUtil.listAll(l);
 				break;
-
+				
+			case "ls_cate":
+				TodoUtil.ls_cate(l);
+				break;
+				
 			case "ls_name_asc":
 				l.sortByName();
 				
@@ -117,7 +126,7 @@ public class TodoMain {
 				l.sortByName();
 				l.reverseList();
 				
-				System.out.println("제목순으로 정렬하였습니다.");
+				System.out.println("제목 역순으로 정렬하였습니다.");
 
 				isList = true;
 				break;
@@ -129,7 +138,15 @@ public class TodoMain {
 
 				isList = true;
 				break;
-
+			case "ls_date_desc":
+				l.sortByDate();
+				l.reverseList();
+				
+				System.out.println("날짜 역순으로 정렬하였습니다.");
+				
+				isList = true;
+				break;
+				
 			case "exit":
 				quit = true;
 				break;
