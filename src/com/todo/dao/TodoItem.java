@@ -1,38 +1,33 @@
 package com.todo.dao;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
+import java.text.SimpleDateFormat;
 
 public class TodoItem {
     private String title;
     private String desc;
-    private String category;
     private String current_date;
+    private String category;
     private String due_date;
-//    private Date current_date;
+    private int id;
     
-    public TodoItem(String title, String desc, String category){
-        this.title=title;
+    public TodoItem(String title, String desc, String category, String due_date){
+    	this.title=title;
         this.desc=desc;
-        this.category = category;
-        
-        Date date = new Date();
-        DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        this.setCurrent_date(df.format(date));
+        SimpleDateFormat f = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
+        this.current_date= f.format(new Date());
+        this.category=category;
+        this.due_date=due_date + current_date.substring(10);
     }
-    
-    public TodoItem(String title, String category, String desc, String duedate){
-        this.title=title;
-        this.desc=desc;
-        this.category = category;
-        this.due_date = duedate;
         
-        Date date = new Date();
-        DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        this.setCurrent_date(df.format(date));
-        this.setDue_date(duedate);
+    public TodoItem(int id, String title, String desc, String category, String due_date){
+        this.id = id;
+    	this.title=title;
+        this.desc=desc;
+        SimpleDateFormat f = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
+        this.current_date= f.format(new Date());
+        this.category=category;
+        this.due_date=due_date + current_date.substring(10);
     }
     
     public String getTitle() {
@@ -50,38 +45,50 @@ public class TodoItem {
     public void setDesc(String desc) {
         this.desc = desc;
     }
-    
-    public String getCategory() {
-    	return this.category;
-    }
-    
-    public void setCategory(String category) {
-    	this.category = category;
-    }
 
     public String getCurrent_date() {
         return current_date;
     }
 
-//    public void setCurrent_date(Date date) {
-//    	
-//        DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH::mm:ss");
-//        this.current_date = df.format(date);
-//    }
+    public void setCurrent_date(String current_date) {
+        this.current_date = current_date;
+    }
     
-    public void setCurrent_date(String date) {
-        this.current_date = date;
+    public String getCategory() {
+    	return category;
+    }
+    
+    public void setCategory(String category) {
+    	this.category = category;
     }
     
     public String getDue_date() {
-    	return this.due_date;
+    	return due_date;
     }
     
     public void setDue_date(String due_date) {
-    	this.due_date = due_date + current_date.substring(10);
+    	this.due_date = due_date;
     }
+    public void setId(int id) {
+		this.id = id;
+		
+	}
+    public int getId() {
+		return id;
+	}
+    
+    
     
     public String toSaveString() {
-    	return title + "##" + category+ "##" + desc + "##" + current_date.substring(0,10)+ " - " + due_date;
+    	return category + "##" + title + "##" + desc + "##" + current_date + "##" + due_date + "\n";
     }
+    
+    @Override
+    public String toString() {
+    	return "[" + category + "]" + title +  " - " +desc + " - " + current_date.substring(0,10) + " - " + due_date;
+    }
+
+	
+
+	
 }

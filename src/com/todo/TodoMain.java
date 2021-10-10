@@ -1,164 +1,90 @@
 package com.todo;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Scanner;
-import java.util.StringTokenizer;
 
-import com.todo.dao.TodoItem;
 import com.todo.dao.TodoList;
 import com.todo.menu.Menu;
+import com.todo.service.DbConnect;
 import com.todo.service.TodoUtil;
 
 public class TodoMain {
-	private static TodoList l;
-	
-	public static void load() {
-		try {
-			BufferedReader br = new BufferedReader(new FileReader("todolist.txt"));
-			
-			l = new TodoList();
-			int count = 0;
-			String oneline;
-			while((oneline = br.readLine()) != null) {
-//				System.out.println(oneline);
-				StringTokenizer st = new StringTokenizer(oneline, "##");
-				
-				String title = st.nextToken();
-//				title = title.substring(1,title.length()-1);
-				String category = st.nextToken();
-				String desc = st.nextToken();
-				String date = st.nextToken();				
-
-				TodoUtil.createItemAtBeginning(l, title, category, desc, date);
-				count++;
-			}
-			br.close();
-			System.out.printf("%d개의 정보 로딩 완료!\n", count);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-	public static void save() throws IOException {
-		BufferedWriter bw = new BufferedWriter(new FileWriter("todolist.txt"));
-		for (TodoItem item : l.getList()) {
-//			bw.write("[" + item.getTitle() + "]##" + item.getDesc() + "##" + item.getCurrent_date());
-			bw.write(item.toSaveString());
-			bw.newLine();
-		}
-		bw.flush();
-		bw.close();
-		
-		System.out.printf("%d개 정보 저장 완료!\n", l.getList().size());
-	}
-	
 	
 	public static void start() {
-	
+			
 		Scanner sc = new Scanner(System.in);
-		
-		if(l == null)
-			l = new TodoList();
-		boolean isList = false;
+		TodoList l = new TodoList();
 		boolean quit = false;
-		
-		Menu.displaymenu();
+		l.importData("todolist.txt");
 		do {
-//			Menu.displaymenu();
 			Menu.prompt();
-			isList = false;
 			String choice = sc.next();
 			
-			if(choice.equals("help"))
-			{
-				Menu.displaymenu();
-				continue;
-			}
-			
 			switch (choice) {
-
-			case "add":
-				TodoUtil.createItem(l);
-				break;
-			
-			case "del":
-				TodoUtil.deleteItem(l);
-				break;
+				case "add":
+					TodoUtil.createItem(l);
+					break;
 				
-			case "edit":
-				TodoUtil.updateItem(l);
-				break;
+				case "del":
+					TodoUtil.deleteItem(l);
+					break;
+					
+				case "edit":
+					TodoUtil.updateItem(l);
+					break;
+					
+				case "ls":
+					TodoUtil.listAll(l);
+					break;
+	
+				case "ls_name":
+					System.out.println("제목순으로 정렬하였습니다.");
+					TodoUtil.listAlls(l, "title", 1);
+					break;
+	
+				case "ls_name_desc":
+					System.out.println("제목역순으로 정렬하였습니다.");
+					TodoUtil.listAlls(l, "title", 0);
+					break;
+					
+				case "ls_date":
+					System.out.println("날짜순으로 정렬하였습니다.");
+					TodoUtil.listAlls(l, "due_date", 1);
+					break;
 				
-			case "find":
-				String key = sc.nextLine().trim();
-				TodoUtil.find(l, key);
-				break;
-			
-			case "find_cate":
-				String keyCate = sc.nextLine().trim();
-				TodoUtil.find_cate(l, keyCate);
-				break;
+				case "ls_date_desc":
+					System.out.println("날짜역순으로 정렬하였습니다.");
+					TodoUtil.listAlls(l, "due_date", 0);
+					break;
+					
+				case "ls_cate":
+					TodoUtil.listCateAll(l);
+					break;
+					
+				case "find":
+					sc.nextLine();
+					String keyword = sc.nextLine().trim();
+					TodoUtil.findList(l, keyword);
+					break;
+					
+				case "find_cate":
+					sc.nextLine();
+					String cate = sc.nextLine().trim();
+					TodoUtil.findCateList(l, cate);
+					break;
+					
+				case "help":
+					Menu.displaymenu();
+					break;			
 				
-			case "ls":
-				TodoUtil.listAll(l);
-				break;
-				
-			case "ls_cate":
-				TodoUtil.ls_cate(l);
-				break;
-				
-			case "ls_name_asc":
-				l.sortByName();
-				
-				System.out.println("제목순으로 정렬하였습니다.");
-
-				isList = true;
-				break;
-
-			case "ls_name_desc":
-				l.sortByName();
-				l.reverseList();
-				
-				System.out.println("제목 역순으로 정렬하였습니다.");
-
-				isList = true;
-				break;
-				
-			case "ls_date":
-				l.sortByDate();
-
-				System.out.println("날짜순으로 정렬하였습니다.");
-
-				isList = true;
-				break;
-				
-			case "ls_date_desc":
-				l.sortByDate();
-				l.reverseList();
-				
-				System.out.println("날짜 역순으로 정렬하였습니다.");
-				
-				isList = true;
-				break;
-				
-			case "exit":
-				quit = true;
-				break;
-
-			default:
-				System.out.println("정확한 명령어를 입력하세요. (도움말 - help)");
-				break;
+				case "exit":
+					quit = true;
+					break;
+					
+				default:
+					System.out.println("정확한 명령어를 입력하세요. (도움말 - help)");
+					break;
 			}
-			
-			if(isList) l.listAll();
 		} while (!quit);
+		DbConnect.getConnection();
 	}
 }
