@@ -228,19 +228,21 @@ public class TodoUtil {
 	}
 	
 	public static void setIsDone(TodoList l) {
-		int idx;
-		int i = 0;
-
 		
-		System.out.println("완료로 바꿀 정보의 번호를 입력하시오 > ");
+		System.out.print("완료로 바꿀 정보의 번호를 입력하시오 (복수 선택 가능) > ");
 		Scanner sc = new Scanner(System.in);
 		
-		idx = sc.nextInt();
+		String indexStr = sc.nextLine();
 		
-		System.out.println("완료로 바꾸시려면 1번, 미완료로 바꾸시려면 0번을 입력하세요 > ");
+		String[]index = indexStr.split(" ");
+		
+		System.out.print("완료로 바꾸시려면 1번, 미완료로 바꾸시려면 0번을 입력하세요 > ");
 		int set = sc.nextInt();
+		for(int i=0; i<index.length; i++) {
+			l.isDoneItem(i, Integer.parseInt(index[i]));
+		};
 		
-		l.isDoneItem(idx, set);
+		System.out.println("저장되었습니다.");
 	}
 	
 	public static void ls_cate(TodoList l) {
