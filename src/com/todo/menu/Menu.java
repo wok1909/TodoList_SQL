@@ -30,7 +30,7 @@ public class Menu {
     	System.out.println("find_cate <keyword> - 카테고리내 키워드 검색");
     	System.out.println("ls - 전체 목록");
     	System.out.println("ls_cate - 전체 목록의 카테고리 정렬");
-    	System.out.println("ls_name_asc - 제목순 정렬");
+    	System.out.println("ls_name - 제목순 정렬");
     	System.out.println("ls_name_desc - 제목역순 정렬");
     	System.out.println("ls_date - 날짜순 정렬");
     	System.out.println("ls_date_desc - 날짜역순 정렬");

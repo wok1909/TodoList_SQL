@@ -90,6 +90,7 @@ public class TodoList {
 			pstmt.setString(6, t.getDue_date());
 			pstmt.setInt(7, t.getCompleteness());
 			pstmt.setBoolean(8, t.getIs_done());
+			pstmt.setInt(9, t.getId());
 			count = pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {

@@ -78,6 +78,7 @@ public class TodoMain {
 					
 				case "done":
 					TodoUtil.setIsDone(l);
+					break;
 					
 					
 				case "help":
@@ -215,7 +216,7 @@ public class TodoMain {
 			{
 				System.out.print("입력이 잘못되었습니다. find 옵션을 원하셨다면 Y를 입력해주세요 > ");
 				String choice = sc.next();
-				
+				sc.nextLine();
 				if(choice.equals("Y") || choice.equals("y")) {
 					System.out.print("찾고자 하는 키워드를 입력해주세요 > ");
 					String keyword = sc.nextLine().trim();
@@ -230,6 +231,7 @@ public class TodoMain {
 			{
 				System.out.print("입력이 잘못되었습니다. find_cate 옵션을 원하셨다면 Y를 입력해주세요 > ");
 				String choice = sc.next();
+				sc.nextLine();
 				
 				if(choice.equals("Y") || choice.equals("y")) {
 					System.out.print("찾고자 하는 키워드를 입력해주세요 > ");

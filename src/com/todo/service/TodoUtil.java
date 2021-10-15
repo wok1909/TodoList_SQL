@@ -86,6 +86,8 @@ public class TodoUtil {
 		System.out.print("새 중요도 > ");
 		int new_importance = sc.nextInt();
 		
+		sc.nextLine();
+		
 		System.out.print("새 카테고리 > ");
 		String new_category = sc.nextLine().trim();
 		
@@ -211,23 +213,18 @@ public class TodoUtil {
 		int i = 0;
 
 		
-		System.out.println("진행율 정보를 바꿀 일정 리스트의 번호를 입력하세 > ");
+		System.out.print("진행율 정보를 바꿀 일정 리스트의 번호를 입력하세요 > ");
 		Scanner sc = new Scanner(System.in);
 		
 		idx = sc.nextInt();
-		for (TodoItem item : l.getList()) {
-			i++;
-			if (i == idx) {
-				System.out.println("진행율을 얼마로 설정하시겠습니까? > ");
-				int set = sc.nextInt();
-				
-				l.completenessItem(i, set);
-				
-				if(set == 100)
-					l.isDoneItem(i, 1);
-				break;
-			}
-		}
+		
+		System.out.print("진행율을 얼마로 설정하시겠습니까? > ");
+		int set = sc.nextInt();
+		
+		l.completenessItem(idx, set);
+		
+		if(set == 100)
+			l.isDoneItem(idx, 1);
 	}
 	
 	public static void setIsDone(TodoList l) {
@@ -239,16 +236,11 @@ public class TodoUtil {
 		Scanner sc = new Scanner(System.in);
 		
 		idx = sc.nextInt();
-		for (TodoItem item : l.getList()) {
-			i++;
-			if (i == idx) {
-				System.out.println("완료로 바꾸시려면 1번, 미완료로 바꾸시려면 0번을 입력하세요 > ");
-				int set = sc.nextInt();
-				
-				l.isDoneItem(i, set);
-				break;
-			}
-		}
+		
+		System.out.println("완료로 바꾸시려면 1번, 미완료로 바꾸시려면 0번을 입력하세요 > ");
+		int set = sc.nextInt();
+		
+		l.isDoneItem(idx, set);
 	}
 	
 	public static void ls_cate(TodoList l) {
