@@ -34,6 +34,8 @@ public class Menu {
     	System.out.println("ls_name_desc - 제목역순 정렬");
     	System.out.println("ls_date - 날짜순 정렬");
     	System.out.println("ls_date_desc - 날짜역순 정렬");
+    	System.out.println("comp - 진행률 설정하기");
+    	System.out.println("done - 완료 여부 설정하기");
     	System.out.println("exit - 종료");
     }
     
